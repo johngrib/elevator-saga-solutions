@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const fs = require('fs');
 const {
     Builder,
     By,
@@ -7,7 +8,18 @@ const {
     until
 } = require('selenium-webdriver');
 
-console.log('arguments: ' + process.argv.slice(2));
+const inputPath = './solutions/' + process.argv.slice(2).pop() + '.js';
+
+if (!fs.existsSync(inputPath)) {
+    console.log("File not found: " + inputPath);
+    return;
+}
+
+const solution = fs.readFileSync(inputPath, 'utf8');
+console.log(solution);
+
+return;
+
 
 const driver = new Builder()
     .forBrowser('chrome')
