@@ -4,7 +4,7 @@
   "description": "my elevator saga solutions",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "brew tap caskroom/cask && brew cask install chromedriver"
   },
   "repository": {
     "type": "git",
