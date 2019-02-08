@@ -2,7 +2,7 @@
   "name": "elevator-saga-solutions",
   "version": "1.0.0",
   "description": "my elevator saga solutions",
-  "main": "index.js",
+  "main": "run.js",
   "scripts": {
     "postinstall": "brew tap caskroom/cask && brew cask install chromedriver"
   },
