@@ -1,0 +1,21 @@
+{
+  "name": "elevator-saga-solutions",
+  "version": "1.0.0",
+  "description": "my elevator saga solutions",
+  "main": "run.js",
+  "scripts": {
+    "postinstall": "brew tap caskroom/cask && brew cask install chromedriver"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johngrib/elevator-saga-solutions.git"
+  },
+  "author": "johngrib",
+  "bugs": {
+    "url": "https://github.com/johngrib/elevator-saga-solutions/issues"
+  },
+  "homepage": "https://github.com/johngrib/elevator-saga-solutions#readme",
+  "dependencies": {
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  }
+}
