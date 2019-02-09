@@ -16,26 +16,19 @@ const game = {
     }
 };
 
-get_stage_number: {
-    const secondArg = process.argv[2];
-    if (secondArg == null) {
-        console.log("Usage:\n\t$ ./run.js stage solution_file.js");
-        console.log("Example:\n\t$ ./run.js 1 ./solutions/01.js");
-        return;
-    }
+let [stage, halt] = getStageNumber(process.argv[2]);
 
-    if (!isDigit(secondArg)) {
-        console.log(`Wrong arg: ${secondArg} is not a number. It means stage number.`)
-        return;
-    }
-    game.stage = parseInt(secondArg, 10);
+if (halt) {
+    process.exit(1);
+    return;
 }
+
+game.stage = stage;
 
 get_file_name: {
     const thirdArg = process.argv[3];
     if (thirdArg == null) {
-        console.log("Usage:\n\t$ ./run.js stage solution_file.js");
-        console.log("Example:\n\t$ ./run.js 1 ./solutions/01.js");
+        printUsage();
         return;
     }
 
@@ -101,4 +94,23 @@ function clickApply() {
 
 function isDigit(str) {
     return /^\d+$/.test(str);
+}
+
+function printUsage() {
+    console.log("Usage:\n\t$ ./run.js [stage] [solution_file]");
+    console.log("Example:\n\t$ ./run.js 1 ./solutions/01.js");
+    console.log("\t$ ./run.js 1 01");
+}
+
+function getStageNumber(inputVal) {
+    if (inputVal == null) {
+        printUsage();
+        return [0, true];
+    }
+
+    if (!isDigit(inputVal)) {
+        console.log(`Wrong arg: ${inputVal} is not a number. It means stage number.`)
+        return [0, true];
+    }
+    return [parseInt(inputVal, 10), false];
 }
