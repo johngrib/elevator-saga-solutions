@@ -1,6 +1,9 @@
 {
     init: function(elevators, floors) {
-
+        /* A simple escalator
+         * that moves one floor up and down
+         * without considering users.
+         */
         const UP = 1;
         const DOWN = -1;
         const BOT_FLOOR = 0;
