@@ -1,6 +1,6 @@
 # elevator-saga-solutions
 
-Test runner for elevator saga.
+Test runner for [elevator saga](https://play.elevatorsaga.com/).
 
 English | [한국어](README-ko.md)
 
