@@ -16,34 +16,17 @@ const game = {
     }
 };
 
-let [stage, halt] = getStageNumber(process.argv[2]);
+game_setting: {
+    let [stage, errorArg2] = getStageNumber(process.argv[2]);
+    let [fileName, errorArg3] = getFileName(process.argv[3]);
 
-if (halt) {
-    process.exit(1);
-    return;
-}
-
-game.stage = stage;
-
-get_file_name: {
-    const thirdArg = process.argv[3];
-    if (thirdArg == null) {
+    if (errorArg2 || errorArg3) {
         printUsage();
+        process.exit(1);
         return;
     }
-
-    const autoPath = `./solutions/${thirdArg}.js`;
-
-    if (fs.existsSync(autoPath)) {
-        game.solution.fileAddr = autoPath;
-
-    } else if (fs.existsSync(thirdArg)) {
-        game.solution.fileAddr = thirdArg;
-
-    } else {
-        console.log("File not found: " + thirdArg);
-        return;
-    }
+    game.stage = stage;
+    game.solution.fileAddr = fileName;
 }
 
 const stageURL = `https://play.elevatorsaga.com/#challenge=${game.stage}`
@@ -104,7 +87,6 @@ function printUsage() {
 
 function getStageNumber(inputVal) {
     if (inputVal == null) {
-        printUsage();
         return [0, true];
     }
 
@@ -113,4 +95,20 @@ function getStageNumber(inputVal) {
         return [0, true];
     }
     return [parseInt(inputVal, 10), false];
+}
+
+function getFileName(userInput) {
+    if (userInput == null) {
+        return ['', true];
+    }
+    if (fs.existsSync(userInput)) {
+        return [userInput, false];
+    }
+
+    const autoPath = `./solutions/${userInput}.js`;
+    if (fs.existsSync(autoPath)) {
+        return [autoPath, false];
+    }
+    console.log("File not found: " + userInput);
+    return ['', true];
 }
