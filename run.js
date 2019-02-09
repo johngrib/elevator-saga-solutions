@@ -8,7 +8,29 @@ const {
     until,
 } = require('selenium-webdriver');
 
-const inputPath = './solutions/' + process.argv.slice(2).pop() + '.js';
+const game = {
+    stage: 1,
+};
+
+get_stage_number: {
+    const secondArg = process.argv[2];
+    if (secondArg == null) {
+        console.log("Usage:\n\t$ ./run.js stage solution_file.js");
+        console.log("Example:\n\t$ ./run.js 1 ./solutions/01.js");
+        return;
+    }
+
+    if (!isDigit(secondArg)) {
+        console.log(`Wrong arg: ${secondArg} is not a number. It means stage number.`)
+        return;
+    }
+    game.stage = parseInt(secondArg, 10);
+}
+
+
+const stageURL = `https://play.elevatorsaga.com/#challenge=${game.stage}`
+
+const inputPath = './solutions/01.js';
 
 if (!fs.existsSync(inputPath)) {
     console.log("File not found: " + inputPath);
@@ -24,7 +46,7 @@ const driver = new Builder()
 
 let time = 0;
 
-driver.get('https://play.elevatorsaga.com/')
+driver.get(stageURL)
     .then(getTimeLimit)
     .then(prepareInject)
     .then(injectSolution)
@@ -58,4 +80,8 @@ function clickReset() {
 
 function clickApply() {
     driver.findElement(By.xpath('//*[@id="button_apply"]')).click();
+}
+
+function isDigit(str) {
+    return /^\d+$/.test(str);
 }
