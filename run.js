@@ -66,15 +66,21 @@ function prepareInject() {
 }
 
 function injectSolution() {
-    driver.executeScript(`$('#default-elev-implementation').text(mycode)`);
+    driver.sleep(100).then(
+        _ => driver.executeScript(`$('#default-elev-implementation').text(mycode)`)
+    )
 }
 
 function clickReset() {
-    driver.findElement(By.xpath('//*[@id="button_reset"]')).click();
+    driver.sleep(100).then(
+        _ => driver.executeScript(`$('#button_reset').click()`)
+    )
 }
 
 function clickApply() {
-    driver.findElement(By.xpath('//*[@id="button_apply"]')).click();
+    driver.sleep(100).then(
+        _ => driver.executeScript(`$('#button_apply').click()`)
+    )
 }
 
 function isDigit(str) {
