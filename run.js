@@ -35,18 +35,17 @@ game_setting: {
     console.log(game.solution.code);
 }
 
-run_the_solution: {
-    const driver = new Builder()
-        .forBrowser('chrome')
-        .build();
+// Run the solution
+const driver = new Builder()
+    .forBrowser('chrome')
+    .build();
 
-    driver.get(stageURL)
+driver.get(game.URL)
     .then(getTimeLimit)
     .then(prepareInject)
     .then(injectSolution)
     .then(clickReset)
     .then(clickApply);
-}
 
 // functions ------------------------------------------------------------------
 
