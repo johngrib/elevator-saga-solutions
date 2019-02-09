@@ -8,14 +8,53 @@ const {
     until,
 } = require('selenium-webdriver');
 
-const inputPath = './solutions/' + process.argv.slice(2).pop() + '.js';
+const game = {
+    stage: 1,
+    solution: {
+        fileAddr: '',
+        code: '',
+    }
+};
 
-if (!fs.existsSync(inputPath)) {
-    console.log("File not found: " + inputPath);
-    return;
+get_stage_number: {
+    const secondArg = process.argv[2];
+    if (secondArg == null) {
+        console.log("Usage:\n\t$ ./run.js stage solution_file.js");
+        console.log("Example:\n\t$ ./run.js 1 ./solutions/01.js");
+        return;
+    }
+
+    if (!isDigit(secondArg)) {
+        console.log(`Wrong arg: ${secondArg} is not a number. It means stage number.`)
+        return;
+    }
+    game.stage = parseInt(secondArg, 10);
 }
 
-const solution = fs.readFileSync(inputPath, 'utf8');
+get_file_name: {
+    const thirdArg = process.argv[3];
+    if (thirdArg == null) {
+        console.log("Usage:\n\t$ ./run.js stage solution_file.js");
+        console.log("Example:\n\t$ ./run.js 1 ./solutions/01.js");
+        return;
+    }
+
+    const autoPath = `./solutions/${thirdArg}.js`;
+
+    if (fs.existsSync(autoPath)) {
+        game.solution.fileAddr = autoPath;
+
+    } else if (fs.existsSync(thirdArg)) {
+        game.solution.fileAddr = thirdArg;
+
+    } else {
+        console.log("File not found: " + thirdArg);
+        return;
+    }
+}
+
+const stageURL = `https://play.elevatorsaga.com/#challenge=${game.stage}`
+const solution = fs.readFileSync(game.solution.fileAddr, 'utf8');
 console.log(solution);
 
 const driver = new Builder()
@@ -24,7 +63,7 @@ const driver = new Builder()
 
 let time = 0;
 
-driver.get('https://play.elevatorsaga.com/')
+driver.get(stageURL)
     .then(getTimeLimit)
     .then(prepareInject)
     .then(injectSolution)
@@ -58,4 +97,8 @@ function clickReset() {
 
 function clickApply() {
     driver.findElement(By.xpath('//*[@id="button_apply"]')).click();
+}
+
+function isDigit(str) {
+    return /^\d+$/.test(str);
 }
