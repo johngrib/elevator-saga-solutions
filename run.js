@@ -10,6 +10,10 @@ const {
 
 const game = {
     stage: 1,
+    solution: {
+        fileAddr: '',
+        code: '',
+    }
 };
 
 get_stage_number: {
@@ -27,17 +31,30 @@ get_stage_number: {
     game.stage = parseInt(secondArg, 10);
 }
 
+get_file_name: {
+    const thirdArg = process.argv[3];
+    if (thirdArg == null) {
+        console.log("Usage:\n\t$ ./run.js stage solution_file.js");
+        console.log("Example:\n\t$ ./run.js 1 ./solutions/01.js");
+        return;
+    }
 
-const stageURL = `https://play.elevatorsaga.com/#challenge=${game.stage}`
+    const autoPath = `./solutions/${thirdArg}.js`;
 
-const inputPath = './solutions/01.js';
+    if (fs.existsSync(autoPath)) {
+        game.solution.fileAddr = autoPath;
 
-if (!fs.existsSync(inputPath)) {
-    console.log("File not found: " + inputPath);
-    return;
+    } else if (fs.existsSync(thirdArg)) {
+        game.solution.fileAddr = thirdArg;
+
+    } else {
+        console.log("File not found: " + thirdArg);
+        return;
+    }
 }
 
-const solution = fs.readFileSync(inputPath, 'utf8');
+const stageURL = `https://play.elevatorsaga.com/#challenge=${game.stage}`
+const solution = fs.readFileSync(game.solution.fileAddr, 'utf8');
 console.log(solution);
 
 const driver = new Builder()
